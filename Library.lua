@@ -1,8 +1,6 @@
-getgenv().Color = Color3.fromRGB(96, 86, 185)
-
 --// Ugly code warning!!! credits to ui library makers becuz i skidded off code.
-if game:GetService("CoreGui"):FindFirstChild("ScreenGui") then
-    game:GetService("CoreGui").ScreenGui:Destroy()
+if game:GetService("CoreGui"):FindFirstChild("Shadow") then
+   game:GetService("CoreGui").Shadow:Destroy()
 end
 
 local UIS = game:GetService("UserInputService")
@@ -13,6 +11,7 @@ local Library = {}
 
 function Library.new(string)
     local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "Shadow"
     ScreenGui.Parent = game:GetService('CoreGui')
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
@@ -132,10 +131,6 @@ function Library.new(string)
     UIListLayout_5.HorizontalAlignment = Enum.HorizontalAlignment.Center
     UIListLayout_5.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout_5.Padding = UDim.new(0, 5)
-
-    local UICorner_27 = Instance.new("UICorner")
-    UICorner_27.CornerRadius = UDim.new(0, 4)
-    UICorner_27.Parent = UI
 
     UIListLayout_5:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
         ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout_5.AbsoluteContentSize.Y + 5)
@@ -507,7 +502,7 @@ function Library.new(string)
                     settings = {min = 0, max = 10}
                 end
 
-                local min, max, precise, count = settings.min, settings.max, settings.precise, settings.count
+                local min, max, default, precise, count = settings.min, settings.max, settings.default, settings.precise, settings.count
 
                 local Slider_2 = Instance.new("Frame")
                 local UICorner_18 = Instance.new("UICorner")
@@ -632,6 +627,13 @@ function Library.new(string)
                         Draggable = false
                     end
                 end)
+
+default = default or min
+		local percent = math.clamp((tonumber(default) - min) / (max - min), 0, 1)
+		
+		TextButton_7.Text = default or min
+		Fill.Size = UDim2.new(percent, 0, 1, 0)
+pcall(callback, tonumber(TextButton_7.Text))
             end
 
             function brah:CreateDrop(string, default, list, callback)
@@ -683,8 +685,8 @@ function Library.new(string)
                 
                 ScrollingFrame_2.Parent = Dropdown
                 ScrollingFrame_2.Active = true
-                ScrollingFrame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                ScrollingFrame_2.BackgroundTransparency = 1.000
+                ScrollingFrame_2.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                ScrollingFrame_2.BackgroundTransparency = 0
                 ScrollingFrame_2.BorderSizePixel = 0
                 ScrollingFrame_2.Position = UDim2.new(-0.349999994, 0, 0.219047621, 0)
                 ScrollingFrame_2.Size = UDim2.new(0, 340, 0, 80)
